@@ -235,6 +235,11 @@ export default function IkigaiWizard({
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>{currentStepData.title}</CardTitle>
+          <p className="text-sm text-gray-500 mt-2">
+            Feel free to fill out this form in whatever way works best for you.
+            You can select options, add your own thoughts, or provide a summary
+            - whatever feels most natural to you.
+          </p>
           <Progress
             value={((currentStep + 1) / steps.length) * 100}
             className="mt-2"

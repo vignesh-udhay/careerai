@@ -223,10 +223,10 @@ ${result.paths.map((path) => `• ${path}`).join("\n")}`;
                 </DropdownMenuContent>
               </DropdownMenu>
               <Link href="/ikigai/explore">
-                <Button>Explore Roles</Button>
+                <Button variant="outline">Explore Roles</Button>
               </Link>
               <Link href="/">
-                <Button variant="outline">Back to Home</Button>
+                <Button>Back to Home</Button>
               </Link>
             </div>
           </div>

@@ -46,10 +46,10 @@ export default function ExploreRoles() {
             <h1 className="text-2xl font-bold">Explore Suggested Roles</h1>
             <div className="flex gap-2">
               <Link href="/ikigai/results">
-                <Button>Back to Results</Button>
+                <Button variant="outline">Back to Results</Button>
               </Link>
               <Link href="/dashboard">
-                <Button variant="outline">Back to Home</Button>
+                <Button>Back to Home</Button>
               </Link>
             </div>
           </div>
