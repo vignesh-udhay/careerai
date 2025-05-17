@@ -3,19 +3,15 @@
 import axios from "axios";
 import { useState } from "react";
 import IkigaiWizard from "../components/IkigaiWizard";
-import IkigaiCircles from "../components/IkigaiCircles";
-import { motion } from "motion/react";
 import { Toaster } from "sonner";
 import { useRouter } from "next/navigation";
 import { useIkigaiStore } from "@/store/ikigaiStore";
 import { useChecklistStore } from "@/store/checklistStore";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function IkigaiPage() {
   const router = useRouter();
-  const [showForm, setShowForm] = useState(false);
-  const [currentCategory, setCurrentCategory] = useState<
-    "love" | "good" | "needs" | "paid" | null
-  >(null);
   const [loading, setLoading] = useState(false);
   const { setResult } = useIkigaiStore();
   const { updateChecklistStatus } = useChecklistStore();
@@ -30,8 +26,8 @@ export default function IkigaiPage() {
       // Update the checklist status using Zustand store
       updateChecklistStatus("Answer Ikigai questions", "Done");
 
-      // Navigate back to home page
-      router.push("/");
+      // Navigate to results page
+      router.push("/ikigai/results");
     } catch (err) {
       console.error("Error submitting form:", err);
       alert("Something went wrong");
@@ -40,35 +36,20 @@ export default function IkigaiPage() {
     }
   };
 
-  const handleStart = () => {
-    setShowForm(true);
-    setCurrentCategory("love");
-  };
-
   return (
     <main className="min-h-screen relative">
       <Toaster position="top-center" expand={true} richColors closeButton />
       <div className="max-w-4xl mx-auto relative">
         <div className="relative min-h-screen">
-          <div className="absolute inset-0 z-0">
-            <IkigaiCircles
-              onStart={handleStart}
-              currentCategory={currentCategory}
-            />
+          <div className="flex flex-col gap-4 z-10 pt-1.5">
+            <div className="flex justify-end px-12">
+              <Link href="/dashboard">
+                <Button variant="outline">Back to Home</Button>
+              </Link>
+            </div>
+
+            <IkigaiWizard onSubmit={handleSubmit} onCategoryChange={() => {}} />
           </div>
-          {showForm && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="relative z-10 pt-1.5"
-            >
-              <IkigaiWizard
-                onSubmit={handleSubmit}
-                onCategoryChange={setCurrentCategory}
-              />
-            </motion.div>
-          )}
         </div>
       </div>
     </main>

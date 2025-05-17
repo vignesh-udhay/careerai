@@ -28,66 +28,65 @@ export default function IkigaiResults() {
   }
 
   return (
-    <main className="min-h-screen relative py-8">
-      <div className="max-w-4xl mx-auto">
+    <main className="min-h-screen relative">
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="w-full px-12 py-8"
         >
-          <div className="w-full px-12">
-            <div className="flex flex-row items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold">Your Ikigai Results</h1>
-              <Link href="/">
-                <Button variant="outline">Back to Home</Button>
-              </Link>
+          <div className="flex flex-row items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold">Your Ikigai Results</h1>
+            <Link href="/">
+              <Button variant="outline">Back to Home</Button>
+            </Link>
+          </div>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">Summary</h2>
+              <p className="text-gray-700">{result.summary}</p>
             </div>
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Summary</h2>
-                <p className="text-gray-700">{result.summary}</p>
-              </div>
 
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Sentiment</h2>
-                <p className="text-gray-700">{result.sentiment}</p>
-              </div>
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">Sentiment</h2>
+              <p className="text-gray-700">{result.sentiment}</p>
+            </div>
 
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Suggested Roles</h2>
-                <ul className="list-disc list-inside space-y-1">
-                  {result.suggestions.map((role, index) => (
-                    <li key={index} className="text-gray-700">
-                      {role}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">Suggested Roles</h2>
+              <ul className="list-disc list-inside space-y-1">
+                {result.suggestions.map((role, index) => (
+                  <li key={index} className="text-gray-700">
+                    {role}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Key Themes</h2>
-                <div className="flex flex-wrap gap-2">
-                  {result.themes.map((theme, index) => (
-                    <span
-                      key={index}
-                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                    >
-                      {theme}
-                    </span>
-                  ))}
-                </div>
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">Key Themes</h2>
+              <div className="flex flex-wrap gap-2">
+                {result.themes.map((theme, index) => (
+                  <span
+                    key={index}
+                    className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                  >
+                    {theme}
+                  </span>
+                ))}
               </div>
+            </div>
 
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Suggested Paths</h2>
-                <ul className="list-disc list-inside space-y-1">
-                  {result.paths.map((path, index) => (
-                    <li key={index} className="text-gray-700">
-                      {path}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">Suggested Paths</h2>
+              <ul className="list-disc list-inside space-y-1">
+                {result.paths.map((path, index) => (
+                  <li key={index} className="text-gray-700">
+                    {path}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </motion.div>

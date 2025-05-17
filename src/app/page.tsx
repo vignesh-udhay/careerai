@@ -1,91 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import AuthForm from "@/components/auth/AuthForm";
 import { motion } from "motion/react";
-import { Toaster } from "sonner";
-import Link from "next/link";
-import { useChecklistStore } from "@/store/checklistStore";
-import { useIkigaiStore } from "@/store/ikigaiStore";
 
 export default function Home() {
-  const { checklist, updateChecklistStatus } = useChecklistStore();
-  const { result } = useIkigaiStore();
-
-  useEffect(() => {
-    // Update checklist status if ikigai result exists
-    if (result) {
-      updateChecklistStatus("Answer Ikigai questions", "Done");
-    }
-  }, [result, updateChecklistStatus]);
-
   return (
-    <main className="min-h-screen relative">
-      <Toaster position="top-center" expand={true} richColors closeButton />
-      <div className="max-w-4xl mx-auto relative py-8">
+    <main className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="text-center mb-8"
         >
-          <div className="w-full px-12">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold">Your Career Journey</h1>
-            </div>
-            <div>
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Checklist</h2>
-                <ul className="space-y-2">
-                  {checklist.map((item) => (
-                    <li
-                      key={item.task}
-                      className="flex items-center justify-between py-2 px-4 bg-gray-50 rounded-lg"
-                    >
-                      <span className="font-medium">{item.task}</span>
-                      <div className="flex items-center gap-4">
-                        <span
-                          className={`text-sm px-2 py-1 rounded ${
-                            item.status === "Done"
-                              ? "bg-green-200 text-green-800"
-                              : "bg-yellow-200 text-yellow-800"
-                          }`}
-                        >
-                          {item.status}
-                        </span>
-                        {item.link !== "#" && (
-                          <Link
-                            href={item.link}
-                            className={
-                              item.task === "Review summary" &&
-                              checklist.find(
-                                (t) => t.task === "Answer Ikigai questions"
-                              )?.status !== "Done"
-                                ? "pointer-events-none"
-                                : ""
-                            }
-                          >
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              disabled={
-                                item.task === "Review summary" &&
-                                checklist.find(
-                                  (t) => t.task === "Answer Ikigai questions"
-                                )?.status !== "Done"
-                              }
-                            >
-                              {item.status === "Done" ? "View" : "Start"}
-                            </Button>
-                          </Link>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+          <h1 className="text-4xl font-bold mb-4">CareerAI</h1>
+          <p className="text-gray-600 text-lg">
+            Discover your career path with AI-powered insights
+          </p>
         </motion.div>
+        <AuthForm />
       </div>
     </main>
   );
