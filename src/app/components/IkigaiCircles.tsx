@@ -27,12 +27,12 @@ export default function IkigaiCircles({
 
   return (
     <motion.div
-      className="fixed inset-0 w-full h-full"
+      className="fixed inset-0 w-full h-full p-10"
       initial={{ backgroundColor: "#ffffff" }}
       animate={{ backgroundColor: getBackgroundColor() }}
       transition={{ duration: 0.5 }}
     >
-      <div className="relative w-[600px] min-h-screen mx-auto flex items-center justify-center">
+      <div className="relative w-[600px] h-full mx-auto flex items-center justify-center">
         {/* Top (What you love) */}
         <motion.div
           initial={{ scale: 0 }}
@@ -158,12 +158,12 @@ export default function IkigaiCircles({
           style={{ zIndex: 5 }}
         >
           <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.2 }}
           >
             <Button
               onClick={onStart}
-              className="bg-black/80 text-white px-10 py-7 text-xl font-semibold rounded-full shadow-lg hover:bg-black"
+              className="cursor-pointer bg-black text-white px-10 py-7 text-xl font-semibold rounded-full shadow-lg hover:bg-black"
             >
               Start Your Journey
             </Button>

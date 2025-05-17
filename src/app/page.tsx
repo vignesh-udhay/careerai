@@ -1,148 +1,91 @@
 "use client";
 
-import axios from "axios";
-import { useState } from "react";
-import IkigaiWizard from "./components/IkigaiWizard";
-import IkigaiCircles from "./components/IkigaiCircles";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import { Toaster } from "sonner";
+import Link from "next/link";
+import { useChecklistStore } from "@/store/checklistStore";
+import { useIkigaiStore } from "@/store/ikigaiStore";
 
 export default function Home() {
-  const [showForm, setShowForm] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [currentCategory, setCurrentCategory] = useState<
-    "love" | "good" | "needs" | "paid" | null
-  >(null);
-  const [checklist, setChecklist] = useState([
-    { task: "Answer Ikigai questions", status: "Not Started" },
-    { task: "Review summary", status: "Not Started" },
-    { task: "Explore roles", status: "Not Started" },
-  ]);
-  const [result, setResult] = useState<{
-    summary: string;
-    sentiment: string;
-    suggestions: string[];
-    themes: string[];
-    paths: string[];
-  } | null>(null);
-  const [loading, setLoading] = useState(false);
+  const { checklist, updateChecklistStatus } = useChecklistStore();
+  const { result } = useIkigaiStore();
 
-  const handleSubmit = async (formData: any) => {
-    setLoading(true);
-    try {
-      const res = await axios.post("/api/summarize", formData);
-      setResult(res.data);
-      setFormSubmitted(true);
-      setChecklist((prev) =>
-        prev.map((item) =>
-          item.task === "Answer Ikigai questions"
-            ? { ...item, status: "Done" }
-            : item
-        )
-      );
-    } catch (err) {
-      alert("Something went wrong");
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    // Update checklist status if ikigai result exists
+    if (result) {
+      updateChecklistStatus("Answer Ikigai questions", "Done");
     }
-  };
-
-  const handleStart = () => {
-    setShowForm(true);
-    setCurrentCategory("love");
-  };
+  }, [result, updateChecklistStatus]);
 
   return (
     <main className="min-h-screen relative">
       <Toaster position="top-center" expand={true} richColors closeButton />
-      <div className="max-w-4xl mx-auto relative">
-        <div className="relative min-h-screen">
-          <div className="absolute inset-0 z-0">
-            <IkigaiCircles
-              onStart={handleStart}
-              currentCategory={currentCategory}
-            />
-          </div>
-          {showForm && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="relative z-10 pt-1.5"
-            >
-              <IkigaiWizard
-                onSubmit={handleSubmit}
-                onCategoryChange={setCurrentCategory}
-              />
-            </motion.div>
-          )}
-        </div>
-
-        {formSubmitted && (
-          <div className="relative z-10 mt-8">
-            <h2 className="text-lg font-semibold mb-4">Checklist</h2>
-            <ul className="mb-4">
-              {checklist.map((item) => (
-                <li
-                  key={item.task}
-                  className="flex items-center justify-between py-1"
-                >
-                  <span>{item.task}</span>
-                  <span
-                    className={`text-sm px-2 py-1 rounded ${
-                      item.status === "Done" ? "bg-green-200" : "bg-yellow-200"
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            {result && (
+      <div className="max-w-4xl mx-auto relative py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-full px-12">
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold">Your Career Journey</h1>
+            </div>
+            <div>
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold">AI Summary</h2>
-                <div className="space-y-2">
-                  <p>
-                    <strong>Summary:</strong> {result.summary}
-                  </p>
-                  <p>
-                    <strong>Sentiment:</strong> {result.sentiment}
-                  </p>
-                  <div>
-                    <strong>Suggested Roles:</strong>
-                    <ul className="list-disc list-inside">
-                      {result.suggestions.map((role, index) => (
-                        <li key={index}>{role}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <strong>Key Themes:</strong>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {result.themes.map((theme, index) => (
+                <h2 className="text-lg font-semibold">Checklist</h2>
+                <ul className="space-y-2">
+                  {checklist.map((item) => (
+                    <li
+                      key={item.task}
+                      className="flex items-center justify-between py-2 px-4 bg-gray-50 rounded-lg"
+                    >
+                      <span className="font-medium">{item.task}</span>
+                      <div className="flex items-center gap-4">
                         <span
-                          key={index}
-                          className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm"
+                          className={`text-sm px-2 py-1 rounded ${
+                            item.status === "Done"
+                              ? "bg-green-200 text-green-800"
+                              : "bg-yellow-200 text-yellow-800"
+                          }`}
                         >
-                          {theme}
+                          {item.status}
                         </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <strong>Suggested Paths:</strong>
-                    <ul className="list-disc list-inside">
-                      {result.paths.map((path, index) => (
-                        <li key={index}>{path}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                        {item.link !== "#" && (
+                          <Link
+                            href={item.link}
+                            className={
+                              item.task === "Review summary" &&
+                              checklist.find(
+                                (t) => t.task === "Answer Ikigai questions"
+                              )?.status !== "Done"
+                                ? "pointer-events-none"
+                                : ""
+                            }
+                          >
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              disabled={
+                                item.task === "Review summary" &&
+                                checklist.find(
+                                  (t) => t.task === "Answer Ikigai questions"
+                                )?.status !== "Done"
+                              }
+                            >
+                              {item.status === "Done" ? "View" : "Start"}
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            )}
+            </div>
           </div>
-        )}
+        </motion.div>
       </div>
     </main>
   );
