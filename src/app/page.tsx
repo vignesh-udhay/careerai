@@ -22,15 +22,8 @@ export default function Home() {
   const handleSubmit = async (formData: any) => {
     setLoading(true);
     try {
-      // Transform the form data into the expected format
-      const transformedData = {
-        love: formData.love.summary,
-        goodAt: formData.goodAt.summary,
-        worldNeeds: formData.worldNeeds.summary,
-        paidFor: formData.paidFor.summary,
-      };
-
-      const res = await axios.post("/api/summarize", transformedData);
+      // Send the complete data structure
+      const res = await axios.post("/api/summarize", formData);
       setResult(res.data);
       setChecklist((prev) =>
         prev.map((item) =>

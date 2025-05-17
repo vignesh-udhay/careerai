@@ -4,11 +4,31 @@ import systemPrompt from "@/app/system-prompt";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+interface IkigaiResponse {
+  selected: string[];
+  summary: string;
+}
+
+interface IkigaiData {
+  love: IkigaiResponse;
+  goodAt: IkigaiResponse;
+  worldNeeds: IkigaiResponse;
+  paidFor: IkigaiResponse;
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { love, goodAt, worldNeeds, paidFor } = body;
+  console.log(" body:", body);
+  const { love, goodAt, worldNeeds, paidFor } = body as IkigaiData;
 
-  const prompt = { love, goodAt, worldNeeds, paidFor };
+  // Format the data to match the system prompt's expected input
+  const prompt = {
+    love: formatCategoryResponse(love),
+    goodAt: formatCategoryResponse(goodAt),
+    worldNeeds: formatCategoryResponse(worldNeeds),
+    paidFor: formatCategoryResponse(paidFor),
+  };
+  console.log(" prompt:", prompt);
 
   try {
     const chatCompletion = await groq.chat.completions.create({
@@ -26,7 +46,7 @@ export async function POST(req: NextRequest) {
     });
 
     const response = chatCompletion.choices[0]?.message?.content || "";
-    console.log(" response:", response);
+    console.log("Response:", response);
 
     // Parse the JSON response
     const parsedResponse = JSON.parse(response);
@@ -45,4 +65,20 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Helper function to format category response
+function formatCategoryResponse(category: IkigaiResponse): string {
+  if (!category || (!category.selected?.length && !category.summary)) {
+    return "No information provided";
+  }
+
+  const selectedItems =
+    category.selected?.length > 0
+      ? `Selected items: ${category.selected.join(", ")}. `
+      : "";
+
+  const summary = category.summary?.trim() || "";
+
+  return `${selectedItems}${summary}`.trim() || "No information provided";
 }
