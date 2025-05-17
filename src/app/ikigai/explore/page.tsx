@@ -17,7 +17,7 @@ export default function ExploreRoles() {
   useEffect(() => {
     if (!result) {
       // If no result is found, redirect to home
-      router.push("/");
+      router.push("/dashboard");
     } else {
       // Update the checklist status when explore page is visited
       updateChecklistStatus("Explore roles", "Done");

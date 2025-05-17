@@ -58,10 +58,11 @@ export default function Dashboard() {
                           <Link
                             href={item.link}
                             className={
-                              item.task === "Review summary" &&
-                              checklist.find(
-                                (t) => t.task === "Find your Ikigai"
-                              )?.status !== "Done"
+                              (item.task === "Review summary" &&
+                                checklist.find(
+                                  (t) => t.task === "Find your Ikigai"
+                                )?.status !== "Done") ||
+                              (item.task === "Explore roles" && !result)
                                 ? "pointer-events-none"
                                 : ""
                             }
@@ -70,10 +71,11 @@ export default function Dashboard() {
                               variant="outline"
                               size="sm"
                               disabled={
-                                item.task === "Review summary" &&
-                                checklist.find(
-                                  (t) => t.task === "Find your Ikigai"
-                                )?.status !== "Done"
+                                (item.task === "Review summary" &&
+                                  checklist.find(
+                                    (t) => t.task === "Find your Ikigai"
+                                  )?.status !== "Done") ||
+                                (item.task === "Explore roles" && !result)
                               }
                             >
                               {item.status === "Done" ? "View" : "Start"}
