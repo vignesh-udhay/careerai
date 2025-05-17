@@ -38,9 +38,14 @@ export default function IkigaiResults() {
         >
           <div className="flex flex-row items-center justify-between mb-6">
             <h1 className="text-2xl font-bold">Your Ikigai Results</h1>
-            <Link href="/">
-              <Button variant="outline">Back to Home</Button>
-            </Link>
+            <div className="flex gap-2">
+              <Link href="/ikigai/explore">
+                <Button>Explore Roles</Button>
+              </Link>
+              <Link href="/">
+                <Button variant="outline">Back to Home</Button>
+              </Link>
+            </div>
           </div>
           <div className="space-y-6">
             <div className="space-y-2">

@@ -16,7 +16,7 @@ export default function Dashboard() {
   useEffect(() => {
     // Update checklist status if ikigai result exists
     if (result) {
-      updateChecklistStatus("Answer Ikigai questions", "Done");
+      updateChecklistStatus("Find your Ikigai", "Done");
     }
   }, [result, updateChecklistStatus]);
 
@@ -60,7 +60,7 @@ export default function Dashboard() {
                             className={
                               item.task === "Review summary" &&
                               checklist.find(
-                                (t) => t.task === "Answer Ikigai questions"
+                                (t) => t.task === "Find your Ikigai"
                               )?.status !== "Done"
                                 ? "pointer-events-none"
                                 : ""
@@ -72,11 +72,18 @@ export default function Dashboard() {
                               disabled={
                                 item.task === "Review summary" &&
                                 checklist.find(
-                                  (t) => t.task === "Answer Ikigai questions"
+                                  (t) => t.task === "Find your Ikigai"
                                 )?.status !== "Done"
                               }
                             >
                               {item.status === "Done" ? "View" : "Start"}
+                            </Button>
+                          </Link>
+                        )}
+                        {item.task === "Explore roles" && result && (
+                          <Link href="/ikigai/explore">
+                            <Button variant="outline" size="sm">
+                              Explore Now
                             </Button>
                           </Link>
                         )}

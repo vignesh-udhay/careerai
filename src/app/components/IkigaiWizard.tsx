@@ -141,6 +141,13 @@ export default function IkigaiWizard({
   const currentStepData = steps[currentStep];
   const currentCategory = currentStepData.id as keyof IkigaiData;
 
+  // Reset form fields when category changes
+  useEffect(() => {
+    form.setValue(`${currentCategory}.selected`, []);
+    form.setValue(`${currentCategory}.summary`, "");
+    form.setValue(`${currentCategory}.other`, "");
+  }, [currentCategory, form]);
+
   // Update parent component when category changes
   useEffect(() => {
     const categoryMap = {
@@ -176,6 +183,11 @@ export default function IkigaiWizard({
     if (currentStep < steps.length - 1) {
       console.log("Moving to next step:", currentStep + 1);
       setCurrentStep((prev) => prev + 1);
+      // Reset the form fields for the next category
+      const nextCategory = steps[currentStep + 1].id as keyof IkigaiData;
+      form.setValue(`${nextCategory}.selected`, []);
+      form.setValue(`${nextCategory}.summary`, "");
+      form.setValue(`${nextCategory}.other`, "");
     }
   };
 

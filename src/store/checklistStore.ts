@@ -18,7 +18,7 @@ export const useChecklistStore = create<ChecklistStore>()(
     (set) => ({
       checklist: [
         {
-          task: "Answer Ikigai questions",
+          task: "Find your Ikigai",
           status: "Not Started",
           link: "/ikigai",
         },
@@ -27,7 +27,11 @@ export const useChecklistStore = create<ChecklistStore>()(
           status: "Not Started",
           link: "/ikigai/results",
         },
-        { task: "Explore roles", status: "Not Started", link: "#" },
+        {
+          task: "Explore roles",
+          status: "Not Started",
+          link: "/ikigai/explore",
+        },
       ],
       updateChecklistStatus: (task: string, newStatus: string) =>
         set((state) => ({

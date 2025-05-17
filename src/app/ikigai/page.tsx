@@ -24,7 +24,7 @@ export default function IkigaiPage() {
       setResult(res.data);
 
       // Update the checklist status using Zustand store
-      updateChecklistStatus("Answer Ikigai questions", "Done");
+      updateChecklistStatus("Find your Ikigai", "Done");
 
       // Navigate to results page
       router.push("/ikigai/results");
