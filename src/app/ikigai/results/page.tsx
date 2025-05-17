@@ -225,7 +225,7 @@ ${result.paths.map((path) => `• ${path}`).join("\n")}`;
               <Link href="/ikigai/explore">
                 <Button variant="outline">Explore Roles</Button>
               </Link>
-              <Link href="/">
+              <Link href="/dashboard">
                 <Button>Back to Home</Button>
               </Link>
             </div>
