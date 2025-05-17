@@ -80,13 +80,6 @@ export default function Dashboard() {
                             </Button>
                           </Link>
                         )}
-                        {item.task === "Explore roles" && result && (
-                          <Link href="/ikigai/explore">
-                            <Button variant="outline" size="sm">
-                              Explore Now
-                            </Button>
-                          </Link>
-                        )}
                       </div>
                     </li>
                   ))}
